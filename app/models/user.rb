@@ -8,6 +8,8 @@ class User < ApplicationRecord
     nouns = ['Moose', 'Nit', 'Onthology', 'Princess', 'Quaalude', 'Reason']
 
     number = rand.to_s[2..4]
+    username = "#{adjectives.sample}-#{nouns.sample}-#{number}"
+    create(username: username)
   end
 
 end
