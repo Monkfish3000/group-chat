@@ -41,3 +41,28 @@
     }
   }
 }
+
+.card.no-outline {
+  border: none;
+}
+
+.room-card {
+  .name {
+    font-weight: bold;
+    color: black;
+  }
+  .member-count {
+    color: #777777;
+    font-weight: light;
+  }
+}
+
+
+
+
+
+
+
+
+
+
