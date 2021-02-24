@@ -1,30 +1,42 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create({ channel: "RoomChannel", room_id: 3 },  {
-  connected() {
-    console.log("Connected...")
-    // Called when the subscription is ready for use on the server
-  },
 
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
+document.addEventListener('turbolinks:load', () => {
+  const room_element = document.getElementById('room-id');
+  const room_id = room_element.getAttribute('data-room-id');
 
-  received(data) {
-    console.log(data)
+  console.log(consumer.subscriptions)
 
-    const element = document.getElementById('user-id');
-    const user_id = Number(element.getAttribute('data-user-id'));
+  consumer.subscriptions.subscriptions.forEach((subscription) => {
+    consumer.subscriptions.remove(subscription)
+  })
 
-    let html;
+  consumer.subscriptions.create({ channel: "RoomChannel", room_id: room_id },  {
+    connected() {
+      console.log("Connected to " +  room_id)
+      // Called when the subscription is ready for use on the server
+    },
 
-    if (user_id === data.message.user_id) {
-      html = data.mine
-    } else {
-      html = data.theirs
-    }
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
 
-    const messageContainer = document.getElementById('messages')
-    messageContainer.innerHTML = messageContainer.innerHTML + html
-    }
-});
+    received(data) {
+
+      const user_element = document.getElementById('user-id');
+      const user_id = Number(user_element.getAttribute('data-user-id'));
+
+      let html;
+
+      if (user_id === data.message.user_id) {
+        html = data.mine
+      } else {
+        html = data.theirs
+      }
+
+      const messageContainer = document.getElementById('messages')
+      messageContainer.innerHTML = messageContainer.innerHTML + html
+      }
+  });
+
+})
